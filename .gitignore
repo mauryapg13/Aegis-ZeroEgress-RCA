@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Environment / Secrets
+.env
+*.env
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Ignore signoz storage / clickhouse data if present locally
+signoz-deploy/deploy/docker/standalone/data/

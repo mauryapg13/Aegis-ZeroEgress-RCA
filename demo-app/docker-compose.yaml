@@ -1,0 +1,75 @@
+services:
+  hotrod:
+    image: jaegertracing/example-hotrod:latest
+    command: ["all"]
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://signoz-ingester-1:4317
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=frontend,service.namespace=astronomy-shop
+    ports:
+      - "8084:8080"
+    networks:
+      - signoz-network
+    restart: always
+
+  checkout-traces:
+    image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:latest
+    command:
+      - traces
+      - --otlp-insecure
+      - --otlp-endpoint=signoz-ingester-1:4317
+      - --service=checkoutservice
+      - --rate=1
+      - --duration=inf
+      - --otlp-attributes=service.namespace="astronomy-shop"
+    networks:
+      - signoz-network
+    restart: always
+
+  catalog-traces:
+    image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:latest
+    command:
+      - traces
+      - --otlp-insecure
+      - --otlp-endpoint=signoz-ingester-1:4317
+      - --service=productcatalogservice
+      - --rate=1
+      - --duration=inf
+      - --otlp-attributes=service.namespace="astronomy-shop"
+    networks:
+      - signoz-network
+    restart: always
+
+  shop-metrics:
+    image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:latest
+    command:
+      - metrics
+      - --otlp-insecure
+      - --otlp-endpoint=signoz-ingester-1:4317
+      - --service=astronomy-shop
+      - --rate=2
+      - --duration=inf
+      - --otlp-metric-name=http_requests_total
+      - --otlp-attributes=service.namespace="astronomy-shop"
+    networks:
+      - signoz-network
+    restart: always
+
+  shop-logs:
+    image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/telemetrygen:latest
+    command:
+      - logs
+      - --otlp-insecure
+      - --otlp-endpoint=signoz-ingester-1:4317
+      - --service=astronomy-shop
+      - --rate=1
+      - --duration=inf
+      - --severity-text=ERROR
+      - --body=Database timeout in checkout pipeline
+      - --otlp-attributes=service.namespace="astronomy-shop"
+    networks:
+      - signoz-network
+    restart: always
+
+networks:
+  signoz-network:
+    external: true
