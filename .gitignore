@@ -21,3 +21,7 @@ venv/
 
 # Ignore signoz storage / clickhouse data if present locally
 signoz-deploy/deploy/docker/standalone/data/
+
+# Internal Hackathon Scripts & Team Docs (Hidden from Judges)
+demo/
+docs/

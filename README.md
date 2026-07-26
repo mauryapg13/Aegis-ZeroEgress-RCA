@@ -200,11 +200,7 @@ python3 -u bridge/main.py
 ├── demo-app/
 │   ├── fault_injector.py         # Standalone OTLP telemetry fault injector (DB pool exhaustion)
 │   └── docker-compose.yaml       # OpenTelemetry astronomy-shop demo microservice stack
-├── signoz-deploy/                # Self-hosted SigNoz standalone Docker deployment
-└── demo/
-    ├── FALLBACK_SCRIPT.md        # Word-for-word video recording script & presentation guide
-    ├── LIVE_DEMO_GUIDE.md        # Interactive presenter cheat sheet for judges
-    └── demo_run_output.txt       # Pre-recorded verified terminal proof output
+└── signoz-deploy/                # Self-hosted SigNoz standalone Docker deployment
 ```
 
 ---
