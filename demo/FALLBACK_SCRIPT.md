@@ -1,5 +1,5 @@
 # Zero-Egress SRE Copilot: 3-Minute Hackathon Submission Script
-### Exact Structure: About the Project | Tech Stack & Arch | Demo | Learning & Growth
+### Exact Structure: About the Project | Tech Stack | Architecture | Demo
 
 This document provides the exact word-for-word voiceover script, screen recording cues, and terminal commands mapped directly to your required 4-part hackathon structure. Keep your total run time between **2 minutes 45 seconds and 3 minutes**.
 
@@ -16,34 +16,34 @@ This document provides the exact word-for-word voiceover script, screen recordin
 
 ---
 
-### 2️⃣ 0:40 - 1:20 | Tech Stack & Architecture
+### 2️⃣ 0:40 - 1:10 | Tech Stack
 * **Visual / Screen Recording**:
-  * Display the system architecture diagram showing the local network loop between **SigNoz (ClickHouse / OpenTelemetry)**, the **Python MCP Bridge**, and local **Ollama (Qwen 2.5 3B)**.
-  * In a terminal tab, run: `python3 bridge/audit_proof.py` and highlight the **Optimization Benchmark** box showing `47,187 tokens -> 4,024 tokens (91.47% reduction)`.
+  * Highlight the technology logos or list in `README.md`: SigNoz, ClickHouse, OpenTelemetry, Ollama, Python MCP, and CSS/SVG.
+  * Show a quick glance at the web UI dashboard at `http://localhost:8088`.
 * **Voiceover Narration**:
-  > *"Our technology stack combines self-hosted SigNoz for OpenTelemetry telemetry, a custom Python Model Context Protocol bridge, Ollama running Qwen 2.5 local models, and our Retro-Futuristic SRE Command Terminal. We engineered and tested this entire system natively on a standard developer laptop using just 2.2 gigabytes of RAM. Why? Because developing under strict laptop compute constraints turned out to be our greatest architectural breakthrough. To prevent memory crashes, we engineered a schema-curated bridge that whitelists exactly six core diagnostic tools out of forty-one. This slashed prompt overhead by a verified 91.47%. Because we solved the hardest efficiency problems on a developer laptop, our architecture will scale natively to enterprise 70-billion-parameter models on private cloud clusters with zero token waste."*
+  > *"Our technology stack is built entirely on open-source, self-hosted infrastructure. For telemetry ingestion and storage, we rely on self-hosted SigNoz powered by OpenTelemetry and ClickHouse columnar databases. For our AI engine, we run Ollama hosting the open-source Qwen 2.5 3-billion-parameter local model. To connect them, we built a custom Python bridge adhering to the Model Context Protocol. Finally, for the user interface, we designed an ultra-responsive Retro-Futuristic Dark Black Command Terminal that uses Server-Sent Events to stream live telemetry directly to the browser without third-party UI dependencies."*
 
 ---
 
-### 3️⃣ 1:20 - 2:25 | Live Demo (HUD Console, SSE Telemetry & Anti-Hallucination)
+### 3️⃣ 1:10 - 1:45 | Architecture (The 91.47% Laptop Breakthrough)
+* **Visual / Screen Recording**:
+  * Display the system architecture diagram showing the local network loopback interface.
+  * In a terminal tab, run: `python3 bridge/audit_proof.py` and zoom in on the **Optimization Benchmark** box showing `47,187 tokens -> 4,024 tokens (91.47% reduction)`.
+* **Voiceover Narration**:
+  > *"Our core architectural breakthrough was engineering and testing this entire zero-egress system natively on a standard developer laptop using just 2.2 gigabytes of RAM. Developing under strict laptop compute constraints forced us to solve the root bottlenecks of local observability. A raw SigNoz MCP server exposes forty-one tools totaling over forty-seven thousand tokens, which causes small local models to crash or hallucinate. We engineered a schema-curated bridge that whitelists exactly six core diagnostic tools. This slashed prompt overhead by a verified 91.47%. Because we solved the hardest efficiency problems on a developer laptop, our architecture scales natively to enterprise 70-billion-parameter models on private cloud clusters with zero token waste."*
+
+---
+
+### 4️⃣ 1:45 - 3:00 | Live Demo (HUD Console, SSE Telemetry & Anti-Hallucination)
 * **Visual / Screen Recording**:
   * **Split Screen**: On the left pane, run `python3 demo-app/fault_injector.py --mode fault --fault-type memory-leak-gc-pause` (or `db-pool-exhaustion`).
-  * On the right pane, open **`http://localhost:8088`** showcasing the **Aegis Zero-Egress Command Terminal** in true `#000000` Dark Mode with neon-orange HUD accents. (Briefly click the top-right toggle to show Sci-Fi Lab Light Mode, then switch back).
+  * On the right pane, open **`http://localhost:8088`** showcasing the **Aegis Zero-Egress Command Terminal** in true `#000000` Dark Mode with neon-orange HUD accents.
   * Click an Incident Preset (e.g., *"Why is paymentservice experiencing severe latency and GC pauses?"*) and click **EXECUTE**.
   * Watch real-time **Server-Sent Events (SSE)** stream step cards onto the HUD with exact millisecond latency, payload byte sizes, and JSON-RPC previews! Show how Qwen executes our **Mandatory 2-Step Workflow** (querying traces first, then correlating logs) before rendering the formatted Markdown diagnosis.
   * **Anti-Hallucination Test**: Enter a query for a healthy service: `Why is adservice failing?` Notice Qwen inspect ClickHouse and report: `✅ Zero errors or failures detected for adservice in recent telemetry. The service is operating normally.`
   * Return to the `audit_proof.py` terminal and highlight: `✅ [VERIFIED] ZERO EXTERNAL EGRESS DETECTED`.
 * **Voiceover Narration**:
-  > *"Let's see the demo in action during a live production outage. On the left, our OpenTelemetry fault injector streams simulated memory leaks and fifteen-second Garbage Collection pauses into our self-hosted SigNoz cluster. On the right, we open our retro-futuristic Aegis command terminal and execute an SRE query. Notice the real-time Server-Sent Events streaming execution telemetry directly to the HUD. We enforced a mandatory two-step tool chaining workflow: Qwen never jumps to conclusions. It first queries traces to isolate the failing microservice, measures exact loopback latency, and then automatically calls log search to retrieve the exact OutOfMemory exception before rendering an evidence-backed diagnosis in clean Markdown. What if an engineer queries a healthy service like adservice? Instead of hallucinating a false connection, our Anti-Hallucination engine verifies zero errors in ClickHouse and honestly reports that the service is healthy. Finally, running our cryptographic compliance auditor mathematically proves that 100 percent of network traffic targeted local loopback interfaces. Zero external IP addresses and zero data leaks."*
-
----
-
-### 4️⃣ 2:25 - 3:00 | Learning & Growth (Reflections)
-* **Visual / Screen Recording**:
-  * Show the UI timeline with multiple completed diagnoses or return to the main project banner.
-  * Show the team / developer closing slide or GitHub repository link: `https://github.com/mauryapg13/Aegis-ZeroEgress-RCA`.
-* **Voiceover Narration**:
-  > *"Building Aegis was an incredible learning experience. Our biggest technical insight was that autonomous AI agent performance in observability is not bottlenecked by model parameter size, but by schema noise and tool design. By forcing ourselves to build for strict laptop compute constraints, we learned how to engineer high-precision, low-latency agentic loops that eliminate LLM sycophancy and hallucination. Combining OpenTelemetry, Model Context Protocol, and real-time streaming taught us how to bridge open-source AI with enterprise systems. Aegis is DORA ready, HIPAA compliant, and ready to transform enterprise observability today. Thank you for watching!"*
+  > *"Let's see the demo in action during a live production outage. On the left, our OpenTelemetry fault injector streams simulated memory leaks and fifteen-second Garbage Collection pauses into our self-hosted SigNoz cluster. On the right, we open our retro-futuristic Aegis command terminal and execute an SRE query. Notice the real-time Server-Sent Events streaming execution telemetry directly to the HUD. We enforced a mandatory two-step tool chaining workflow: Qwen never jumps to conclusions. It first queries traces to isolate the failing microservice, measures exact loopback latency, and then automatically calls log search to retrieve the exact OutOfMemory exception before rendering an evidence-backed diagnosis in clean Markdown. What if an engineer queries a healthy service like adservice? Instead of hallucinating a false connection, our Anti-Hallucination engine verifies zero errors in ClickHouse and honestly reports that the service is healthy. Finally, running our cryptographic compliance auditor mathematically proves that 100 percent of network traffic targeted local loopback interfaces. Zero external IP addresses, zero third-party AI APIs, and zero data leaks. Aegis is ready for enterprise deployment today."*
 
 ---
 
