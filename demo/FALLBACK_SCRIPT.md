@@ -9,10 +9,10 @@ This document provides the exact word-for-word voiceover script, screen recordin
 
 ### 1️⃣ 0:00 - 0:40 | About the Project
 * **Visual / Screen Recording**: 
-  * Show the top of the root `README.md` highlighting the **DORA**, **HIPAA**, and **EU AI Act** compliance badges.
+  * Show the top of the root `README.md` highlighting the project title and the **DORA**, **HIPAA**, and **EU AI Act** compliance badges.
   * Show a quick visual of an enterprise outage or split-screen terminal.
 * **Voiceover Narration**:
-  > *"When an outage strikes a critical banking, healthcare, or European enterprise system, Site Reliability Engineers need answers in seconds. While cloud-based LLMs like OpenAI can analyze logs, sending production observability data across the public internet is illegal under strict data sovereignty laws like DORA in Europe and HIPAA in healthcare. Production stack traces and request headers are loaded with sensitive customer IDs, authorization tokens, and SQL queries. To solve this, we built Aegis: a 100% air-gapped, Zero-Egress SRE Copilot that brings autonomous root-cause analysis directly inside the private perimeter."*
+  > *"Hello judges! We are excited to present **Aegis: The Zero-Egress SRE Copilot for SigNoz**. In critical banking, healthcare, and European enterprises, Site Reliability Engineers need instant answers during outages. While cloud-based LLMs like OpenAI can analyze logs, sending production observability data across the public internet violates strict data sovereignty laws like DORA in Europe and HIPAA in healthcare. Production stack traces and request headers are loaded with sensitive customer IDs, authorization tokens, and SQL queries. Aegis solves this by bringing autonomous AI root-cause analysis directly inside your private network perimeter—100% air-gapped with zero data leaks."*
 
 ---
 
