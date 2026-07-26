@@ -18,10 +18,10 @@ This document provides the exact word-for-word voiceover script, screen recordin
 
 ### 2️⃣ 0:40 - 1:10 | Tech Stack
 * **Visual / Screen Recording**:
-  * Highlight the technology logos or list in `README.md`: SigNoz, ClickHouse, OpenTelemetry, Ollama, Python MCP, and CSS/SVG.
-  * Show a quick glance at the web UI dashboard at `http://localhost:8088`.
+  * Highlight the technology logos or list in `README.md`: SigNoz, ClickHouse, OpenTelemetry, Ollama, Python MCP, and SSE streaming.
+  * Show a quick glance at the web console at `http://localhost:8088`.
 * **Voiceover Narration**:
-  > *"Our technology stack is built entirely on open-source, self-hosted infrastructure. For telemetry ingestion and storage, we rely on self-hosted SigNoz powered by OpenTelemetry and ClickHouse columnar databases. For our AI engine, we run Ollama hosting the open-source Qwen 2.5 3-billion-parameter local model. To connect them, we built a custom Python bridge adhering to the Model Context Protocol. Finally, for the user interface, we designed an ultra-responsive Retro-Futuristic Dark Black Command Terminal that uses Server-Sent Events to stream live telemetry directly to the browser without third-party UI dependencies."*
+  > *"Our technology stack is built entirely on open-source, self-hosted infrastructure. For telemetry ingestion and storage, we rely on self-hosted SigNoz powered by OpenTelemetry and ClickHouse columnar databases. For our AI engine, we run Ollama hosting the open-source Qwen 2.5 3-billion-parameter local model. To connect them, we built a custom Python bridge adhering to the Model Context Protocol. Finally, for live interaction, we engineered a lightweight web terminal that uses Server-Sent Events to stream real-time execution telemetry and diagnostic steps directly to the browser without third-party UI dependencies."*
 
 ---
 
@@ -34,16 +34,16 @@ This document provides the exact word-for-word voiceover script, screen recordin
 
 ---
 
-### 4️⃣ 1:45 - 3:00 | Live Demo (HUD Console, SSE Telemetry & Anti-Hallucination)
+### 4️⃣ 1:45 - 3:00 | Live Demo (SRE Console, SSE Telemetry & Anti-Hallucination)
 * **Visual / Screen Recording**:
   * **Split Screen**: On the left pane, run `python3 demo-app/fault_injector.py --mode fault --fault-type memory-leak-gc-pause` (or `db-pool-exhaustion`).
-  * On the right pane, open **`http://localhost:8088`** showcasing the **Aegis Zero-Egress Command Terminal** in true `#000000` Dark Mode with neon-orange HUD accents.
+  * On the right pane, open **`http://localhost:8088`** showcasing the **Aegis Zero-Egress Command Console**.
   * Click an Incident Preset (e.g., *"Why is paymentservice experiencing severe latency and GC pauses?"*) and click **EXECUTE**.
-  * Watch real-time **Server-Sent Events (SSE)** stream step cards onto the HUD with exact millisecond latency, payload byte sizes, and JSON-RPC previews! Show how Qwen executes our **Mandatory 2-Step Workflow** (querying traces first, then correlating logs) before rendering the formatted Markdown diagnosis.
+  * Watch real-time **Server-Sent Events (SSE)** stream execution metrics onto the console with exact millisecond latency, payload byte sizes, and JSON-RPC parameters! Show how Qwen executes our **Mandatory 2-Step Workflow** (querying traces first, then correlating logs) before rendering the formatted Markdown diagnosis.
   * **Anti-Hallucination Test**: Enter a query for a healthy service: `Why is adservice failing?` Notice Qwen inspect ClickHouse and report: `✅ Zero errors or failures detected for adservice in recent telemetry. The service is operating normally.`
   * Return to the `audit_proof.py` terminal and highlight: `✅ [VERIFIED] ZERO EXTERNAL EGRESS DETECTED`.
 * **Voiceover Narration**:
-  > *"Let's see the demo in action during a live production outage. On the left, our OpenTelemetry fault injector streams simulated memory leaks and fifteen-second Garbage Collection pauses into our self-hosted SigNoz cluster. On the right, we open our retro-futuristic Aegis command terminal and execute an SRE query. Notice the real-time Server-Sent Events streaming execution telemetry directly to the HUD. We enforced a mandatory two-step tool chaining workflow: Qwen never jumps to conclusions. It first queries traces to isolate the failing microservice, measures exact loopback latency, and then automatically calls log search to retrieve the exact OutOfMemory exception before rendering an evidence-backed diagnosis in clean Markdown. What if an engineer queries a healthy service like adservice? Instead of hallucinating a false connection, our Anti-Hallucination engine verifies zero errors in ClickHouse and honestly reports that the service is healthy. Finally, running our cryptographic compliance auditor mathematically proves that 100 percent of network traffic targeted local loopback interfaces. Zero external IP addresses, zero third-party AI APIs, and zero data leaks. Aegis is ready for enterprise deployment today."*
+  > *"Let's see the demo in action during a live production outage. On the left, our OpenTelemetry fault injector streams simulated memory leaks and fifteen-second Garbage Collection pauses into our self-hosted SigNoz cluster. On the right, we open our interactive Aegis SRE console and execute a query. Notice the real-time Server-Sent Events streaming tool execution metrics directly to the browser. We enforced a mandatory two-step tool chaining workflow: Qwen never jumps to conclusions. It first queries traces to isolate the failing microservice, measures exact loopback latency, and then automatically calls log search to retrieve the exact OutOfMemory exception before rendering an evidence-backed diagnosis in clean Markdown. What if an engineer queries a healthy service like adservice? Instead of hallucinating a false connection, our Anti-Hallucination engine verifies zero errors in ClickHouse and honestly reports that the service is healthy. Finally, running our cryptographic compliance auditor mathematically proves that 100 percent of network traffic targeted local loopback interfaces. Zero external IP addresses, zero third-party AI APIs, and zero data leaks. Aegis is ready for enterprise deployment today."*
 
 ---
 
@@ -54,7 +54,7 @@ This document provides the exact word-for-word voiceover script, screen recordin
 # Terminal Tab 1: Start Bridge & MCP Loopback
 python3 bridge/main.py
 
-# Terminal Tab 2: Start Retro-Futuristic Web Terminal
+# Terminal Tab 2: Start Interactive Web Terminal
 python3 bridge/web_ui.py
 ```
 

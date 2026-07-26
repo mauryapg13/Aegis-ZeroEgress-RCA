@@ -29,9 +29,7 @@ Production exception stack traces and HTTP logs routinely capture:
 
 Our solution bridges **self-hosted SigNoz observability**, the **official SigNoz MCP (Model Context Protocol) Server**, and a **fully local open-source LLM (`qwen2.5:3b`) running on Ollama with Metal GPU acceleration**—orchestrated by our schema-curated Zero-Egress Bridge.
 
-<p align="center">
-  <img src="assets/system_architecture.png" alt="Aegis Zero-Egress System Architecture" width="900" />
-</p>
+![Aegis Zero-Egress System Architecture](./assets/system_architecture.png)
 
 ```
 +---------------------------------------------------------------------------------------------+
@@ -57,7 +55,7 @@ Our platform is engineered using a 100% open-source, self-hosted, and air-gapped
 * **Tool-Calling Interface**: Official **SigNoz MCP (Model Context Protocol)** server exposed via HTTP JSON-RPC on loopback port `8000`.
 * **Sovereign AI Engine**: **Ollama** running local open-source LLMs (**Qwen 2.5 3B / Llama 3 / DeepSeek**) with Metal GPU / CUDA acceleration.
 * **Orchestration Bridge**: Custom Python 3.10+ MCP Client (`bridge/main.py` & `bridge/mcp_client.py`) featuring 6-tool schema curation, 91.47% token reduction, and cryptographic loopback audit verification (`audit_proof.py`).
-* **Interactive Command Terminal**: Retro-Futuristic Dark Black HUD Web Console (`bridge/web_ui.py`) running on port `8088`, featuring real-time **Server-Sent Events (SSE)** telemetry streaming, custom SVG indicators, and Marked.js markdown rendering.
+* **Real-Time SRE Command Console**: Interactive web console (`bridge/web_ui.py`) running on port `8088`, featuring real-time **Server-Sent Events (SSE)** telemetry streaming, tool execution metrics (latency and payload size), and structured markdown diagnostic rendering.
 
 ---
 
