@@ -332,10 +332,118 @@ def inject_baseline(endpoint: str, service_name: str, count: int, interval: floa
             print(f"  [Batch {i}/{count}] ❌ Error: {e}")
         time.sleep(interval)
 
+def inject_kafka_lag(endpoint: str, service_name: str, count: int, interval: float):
+    print(f"\033[91m⚠️  [FAULT INJECTION ENABLED] Simulating Kafka Consumer Lag & Deadletter Crash on 'cartservice' -> 'emailservice'...\033[0m")
+    print(f"📡 Target OTLP Endpoint: {endpoint}")
+    print(f"🔄 Injecting {count} batches (interval: {interval}s)...\n")
+    
+    success_count = 0
+    for i in range(1, count + 1):
+        now_ns = int(time.time() * 1e9)
+        trace_id = uuid.uuid4().hex
+        span_cart = uuid.uuid4().hex[:16]
+        span_kafka = uuid.uuid4().hex[:16]
+        
+        trace_payload = {
+            "resourceSpans": [
+                {
+                    "resource": {
+                        "attributes": [
+                            {"key": "service.name", "value": {"stringValue": "cartservice"}},
+                            {"key": "service.namespace", "value": {"stringValue": "astronomy-shop"}}
+                        ]
+                    },
+                    "scopeSpans": [{
+                        "spans": [{
+                            "traceId": trace_id,
+                            "spanId": span_cart,
+                            "name": "Kafka.PRODUCE /order_confirmation_events",
+                            "kind": 4, # PRODUCER
+                            "startTimeUnixNano": str(now_ns - int(12.0 * 1e9)),
+                            "endTimeUnixNano": str(now_ns),
+                            "attributes": [
+                                {"key": "messaging.system", "value": {"stringValue": "kafka"}},
+                                {"key": "messaging.destination", "value": {"stringValue": "order_confirmation_events"}},
+                                {"key": "error", "value": {"boolValue": True}},
+                                {"key": "exception.type", "value": {"stringValue": "org.apache.kafka.common.errors.RecordTooLargeException"}}
+                            ],
+                            "status": {"code": 2, "message": "RecordTooLargeException: 52428800 bytes exceeds max.request.size 1048576"}
+                        }]
+                    }]
+                },
+                {
+                    "resource": {
+                        "attributes": [
+                            {"key": "service.name", "value": {"stringValue": "emailservice"}},
+                            {"key": "service.namespace", "value": {"stringValue": "astronomy-shop"}}
+                        ]
+                    },
+                    "scopeSpans": [{
+                        "spans": [{
+                            "traceId": trace_id,
+                            "spanId": span_kafka,
+                            "parentSpanId": span_cart,
+                            "name": "Kafka.CONSUME /order_confirmation_events",
+                            "kind": 5, # CONSUMER
+                            "startTimeUnixNano": str(now_ns - int(11.8 * 1e9)),
+                            "endTimeUnixNano": str(now_ns),
+                            "attributes": [
+                                {"key": "messaging.system", "value": {"stringValue": "kafka"}},
+                                {"key": "messaging.consumer_group", "value": {"stringValue": "email-notification-workers"}},
+                                {"key": "messaging.kafka.consumer_lag", "value": {"intValue": 1450000}},
+                                {"key": "error", "value": {"boolValue": True}},
+                                {"key": "exception.type", "value": {"stringValue": "org.apache.kafka.common.errors.SerializationException"}}
+                            ],
+                            "status": {"code": 2, "message": "Consumer group rebalance storm: unhandled 50MB payload"}
+                        }]
+                    }]
+                }
+            ]
+        }
+        
+        log_payload = {
+            "resourceLogs": [{
+                "resource": {
+                    "attributes": [
+                        {"key": "service.name", "value": {"stringValue": "emailservice"}},
+                        {"key": "service.namespace", "value": {"stringValue": "astronomy-shop"}}
+                    ]
+                },
+                "scopeLogs": [{
+                    "logRecords": [{
+                        "timeUnixNano": str(now_ns),
+                        "severityNumber": 17,
+                        "severityText": "ERROR",
+                        "body": {
+                            "stringValue": "FATAL [emailservice]: org.apache.kafka.common.errors.RecordTooLargeException: Uncompressed 52.4MB payload received from cartservice on topic order_confirmation_events. Consumer group email-notification-workers thread crashed. 1,450,000 uncommitted messages lagging. Consumer entering REBALANCE_STORM."
+                        },
+                        "attributes": [
+                            {"key": "trace_id", "value": {"stringValue": trace_id}},
+                            {"key": "span_id", "value": {"stringValue": span_kafka}},
+                            {"key": "error.type", "value": {"stringValue": "org.apache.kafka.common.errors.RecordTooLargeException"}}
+                        ]
+                    }]
+                }]
+            }]
+        }
+        
+        try:
+            r_trace = requests.post(f"{endpoint}/v1/traces", json=trace_payload, timeout=5)
+            r_log = requests.post(f"{endpoint}/v1/logs", json=log_payload, timeout=5)
+            if r_trace.status_code == 200 and r_log.status_code == 200:
+                print(f"  [Batch {i}/{count}] ✅ Injected Kafka Lag & RecordTooLargeException ({trace_id[:8]}...) -> 1.45M Lag")
+                success_count += 1
+        except Exception as e:
+            print(f"  [Batch {i}/{count}] ❌ Error: {e}")
+        if i < count:
+            time.sleep(interval)
+            
+    print(f"\n🏁 Kafka Outage Fault Injection Completed: {success_count}/{count} batches indexed.")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SigNoz Demo App Fault Injector")
     parser.add_argument("--mode", choices=["fault", "baseline"], default="fault", help="Telemetry mode to inject")
-    parser.add_argument("--fault-type", choices=["db-pool-exhaustion", "memory-leak-gc-pause", "redis-connection-refused"], default="db-pool-exhaustion", help="Type of fault to simulate")
+    parser.add_argument("--fault-type", choices=["db-pool-exhaustion", "memory-leak-gc-pause", "redis-connection-refused", "kafka-consumer-lag-deadletter"], default="db-pool-exhaustion", help="Type of fault to simulate")
     parser.add_argument("--service", default="checkoutservice", help="Target microservice name")
     parser.add_argument("--endpoint", default=DEFAULT_ENDPOINT, help="OTLP HTTP endpoint (default: http://localhost:4318)")
     parser.add_argument("--count", type=int, default=5, help="Number of telemetry batches to send")
@@ -348,6 +456,8 @@ if __name__ == "__main__":
             inject_memory_leak(args.endpoint, args.service, args.count, args.interval)
         elif args.fault_type == "redis-connection-refused":
             inject_redis_refused(args.endpoint, args.service, args.count, args.interval)
+        elif args.fault_type == "kafka-consumer-lag-deadletter":
+            inject_kafka_lag(args.endpoint, args.service, args.count, args.interval)
         else:
             inject_db_pool_exhaustion(args.endpoint, args.service, args.count, args.interval)
     else:
