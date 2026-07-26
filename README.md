@@ -207,3 +207,5 @@ python3 -u bridge/main.py
 
 ## 🤝 License & Compliance
 This project is open-source and built specifically to empower regulated organizations to adopt AI-assisted observability without compromising data sovereignty, enterprise privacy, or regulatory compliance.
+
+> **🤖 AI Tooling Disclosure**: In accordance with hackathon transparency guidelines, we note that our team used AI assistants (Google Antigravity, Claude, and ChatGPT) during development for brainstorming, debugging, and formatting documentation. All core architectures, scripts, and benchmark verifications were implemented and executed by our engineering team.
