@@ -29,6 +29,10 @@ Production exception stack traces and HTTP logs routinely capture:
 
 Our solution bridges **self-hosted SigNoz observability**, the **official SigNoz MCP (Model Context Protocol) Server**, and a **fully local open-source LLM (`qwen2.5:3b`) running on Ollama with Metal GPU acceleration**—orchestrated by our schema-curated Zero-Egress Bridge.
 
+<p align="center">
+  <img src="assets/system_architecture.png" alt="Aegis Zero-Egress System Architecture" width="900" />
+</p>
+
 ```
 +---------------------------------------------------------------------------------------------+
 |                                    PRIVATE ENTERPRISE NETWORK                               |
