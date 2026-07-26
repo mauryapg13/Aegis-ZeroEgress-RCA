@@ -25,16 +25,16 @@ This document provides the exact word-for-word voiceover script, screen recordin
 
 ---
 
-### 3️⃣ 1:10 - 1:45 | Architecture (The 91.47% Laptop Breakthrough)
+### 3️⃣ 1:10 - 1:40 | Architecture & Pipeline Optimization (30s)
 * **Visual / Screen Recording**:
-  * Display the system architecture diagram showing the local network loopback interface.
-  * In a terminal tab, run: `python3 bridge/audit_proof.py` and zoom in on the **Optimization Benchmark** box showing `47,187 tokens -> 4,024 tokens (91.47% reduction)`.
+  * Display the system architecture diagram tracing the flow from applications -> OpenTelemetry -> ClickHouse -> Zero-Egress Bridge -> Ollama.
+  * In a terminal tab, run: `python3 bridge/audit_proof.py` highlighting the **Optimization Benchmark** (`47,187 -> 4,024 tokens`).
 * **Voiceover Narration**:
-  > *"Our core architectural breakthrough was engineering and testing this entire zero-egress system natively on a standard developer laptop using just 2.2 gigabytes of RAM. Developing under strict laptop compute constraints forced us to solve the root bottlenecks of local observability. A raw SigNoz MCP server exposes forty-one tools totaling over forty-seven thousand tokens, which causes small local models to crash or hallucinate. We engineered a schema-curated bridge that whitelists exactly six core diagnostic tools. This slashed prompt overhead by a verified 91.47%. Because we solved the hardest efficiency problems on a developer laptop, our architecture scales natively to enterprise 70-billion-parameter models on private cloud clusters with zero token waste."*
+  > *"Architecturally, our data pipeline is 100 percent air-gapped. Applications stream OpenTelemetry traces and logs into self-hosted SigNoz and ClickHouse. When an incident occurs, Ollama queries our Zero-Egress Bridge via local JSON-RPC over loopback port 8000. To prevent local model crashes, our bridge optimizes the raw forty-one-tool SigNoz schema into a curated six-tool whitelist. This pipeline optimization cuts prompt token bloat by 91.47 percent, enabling instant, hallucination-free root-cause analysis on secure on-premise infrastructure."*
 
 ---
 
-### 4️⃣ 1:45 - 3:00 | Live Demo (SRE Console, SSE Telemetry & Anti-Hallucination)
+### 4️⃣ 1:40 - 3:00 | Live Demo (SRE Console, SSE Telemetry & Anti-Hallucination)
 * **Visual / Screen Recording**:
   * **Split Screen**: On the left pane, run `python3 demo-app/fault_injector.py --mode fault --fault-type memory-leak-gc-pause` (or `db-pool-exhaustion`).
   * On the right pane, open **`http://localhost:8088`** showcasing the **Aegis Zero-Egress Command Console**.
