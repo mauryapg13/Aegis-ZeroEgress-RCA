@@ -47,6 +47,14 @@ Our solution bridges **self-hosted SigNoz observability**, the **official SigNoz
 |                                                                                             |
 ```
 
+### 💻 Open-Source Technology Stack
+Our platform is engineered using a 100% open-source, self-hosted, and air-gapped technology stack:
+* **Observability & Telemetry Store**: **Self-Hosted SigNoz** (OpenTelemetry Collector, ClickHouse columnar database, and Query Service running on port `8080`).
+* **Tool-Calling Interface**: Official **SigNoz MCP (Model Context Protocol)** server exposed via HTTP JSON-RPC on loopback port `8000`.
+* **Sovereign AI Engine**: **Ollama** running local open-source LLMs (**Qwen 2.5 3B / Llama 3 / DeepSeek**) with Metal GPU / CUDA acceleration.
+* **Orchestration Bridge**: Custom Python 3.10+ MCP Client (`bridge/main.py` & `bridge/mcp_client.py`) featuring 6-tool schema curation, 91.47% token reduction, and cryptographic loopback audit verification (`audit_proof.py`).
+* **Interactive Command Terminal**: Retro-Futuristic Dark Black HUD Web Console (`bridge/web_ui.py`) running on port `8088`, featuring real-time **Server-Sent Events (SSE)** telemetry streaming, custom SVG indicators, and Marked.js markdown rendering.
+
 ---
 
 ## 💡 The Enterprise Vision: How Laptop Constraints Drastically Improved Scalability
