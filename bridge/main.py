@@ -22,13 +22,13 @@ def load_env():
                     if key not in os.environ:
                         os.environ[key] = val
 
-SYSTEM_PROMPT = """You are a Zero-Egress SRE Copilot for SigNoz.
-You diagnose incidents and perform Root Cause Analysis (RCA).
-CRITICAL RULE: NEVER use the 'filter', 'searchText', or 'operation' parameters in any tool call.
-When asked to diagnose failures in a service (like checkoutservice):
-1. First call `signoz_search_logs` with {"service": "<service_name>", "severity": "ERROR", "limit": 3} to find the error exception.
-2. Second call `signoz_search_traces` with {"service": "<service_name>", "error": true, "limit": 3} to see the failing operation.
-3. ONCE YOU RECEIVE THOSE LOGS AND TRACES, YOU MUST NOT CALL ANY MORE TOOLS. Immediately synthesize your final answer in plain text explaining the Root Cause Analysis (e.g. HikariPool DB connection pool exhaustion in checkoutservice)."""
+SYSTEM_PROMPT = """You are a Zero-Egress SRE Copilot for SigNoz performing Root Cause Analysis (RCA).
+
+GUIDELINES:
+1. NEVER use the 'filter', 'searchText', or 'operation' parameters in tool calls.
+2. Step 1: Call `signoz_search_traces` with {"error": true, "limit": 5} to find failing microservices.
+3. Step 2: Extract the failing service name from the trace (e.g. paymentservice, recommendationservice, checkoutservice) and call `signoz_search_logs` with {"service": "<failing_service>", "limit": 5} to get the stack trace.
+4. STOPPING RULE: Once you receive the failing trace and log message (e.g. OutOfMemoryError, 15s GC pause, HikariPool timeout, Redis connection refused), DO NOT call any more tools. Immediately explain the Root Cause Analysis in plain text naming the failing service and root cause."""
 
 def run_loop(query: str, client: OpenAI, mcp: SigNozMCPClient, tools: List[Dict[str, Any]], max_steps: int = 8) -> str:
     """Runs the RCA tool-calling loop between local Qwen and SigNoz MCP server."""

@@ -166,6 +166,7 @@ class SigNozMCPClient:
                     for r in rows:
                         d = r.get("data", {})
                         clean_traces.append({
+                            "trace_id": r.get("traceID", d.get("trace_id", "")),
                             "timestamp": r.get("timestamp"),
                             "service": d.get("service.name", args_dict.get("service", "unknown")),
                             "operation": d.get("name", ""),
